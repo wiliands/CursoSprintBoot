@@ -1,5 +1,12 @@
-.classpath
-.project
-.settings
-.metadata
-/CursoSpringBoot/target
+**/.classpath
+**/.project
+**/.settings/
+**/.metadata
+**/.gradle/
+**/.springBeans
+**/tarjet/
+*.jar
+*.war
+*.ear
+*.class
+RemoteSystemsTempFiles/

@@ -1,4 +1,4 @@
-package br.com.springboot.controller;
+package br.com.springboot.controllers;
 
 import java.util.concurrent.atomic.AtomicLong;
 
