@@ -1,5 +1,8 @@
 package br.com.springboot.math;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class SimpleMath {
 	
 	public Double sum(Double numberOne, Double numberTwo) {
