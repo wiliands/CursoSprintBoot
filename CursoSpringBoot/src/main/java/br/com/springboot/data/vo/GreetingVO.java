@@ -1,11 +1,11 @@
-package br.com.springboot.vo;
+package br.com.springboot.data.vo;
 
-public class Greeting {
+public class GreetingVO {
 
 	private final long id;
 	private final String content;
 
-	public Greeting(long id, String content) {
+	public GreetingVO(long id, String content) {
 		super();
 		this.id = id;
 		this.content = content;

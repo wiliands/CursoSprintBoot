@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.springboot.converters.DozerConverter;
+import br.com.springboot.data.model.Person;
+import br.com.springboot.data.vo.PersonVO;
 import br.com.springboot.exceptions.ResourceNotFoundException;
-import br.com.springboot.model.Person;
 import br.com.springboot.repository.PersonRepository;
 
 @Service
@@ -15,31 +17,41 @@ public class PersonService {
 	@Autowired
 	PersonRepository repository;
 
-	public Person findById(Long id) {
-		return repository.findById(id)
+	public PersonVO findById(Long id) {
+		var entity = repository.findById(id)
 						 .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found for this ID #%s", id)));
+		
+		return DozerConverter.parseObject(entity, PersonVO.class);
 	}
 	
-	public List<Person> findAll() {
-		return repository.findAll();
+	public List<PersonVO> findAll() {
+		return DozerConverter.parseListObjects(repository.findAll(), PersonVO.class);
 	}
 
-	public Person create(Person person) {
-		return repository.save(person);
+	public PersonVO create(PersonVO person) {
+		var entity = DozerConverter.parseObject(person, Person.class);
+		entity = repository.save(entity);
+		
+		return DozerConverter.parseObject(entity, PersonVO.class);
 	}
 	
-	public Person update(Person person) {
-		Person entity = findById(person.getId());
+	public PersonVO update(PersonVO person) {
+		var vo = findById(person.getId());
 		
+		var entity = DozerConverter.parseObject(vo, Person.class);
 		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
-		return repository.save(entity);
+		entity = repository.save(entity);
+		
+		return DozerConverter.parseObject(entity, PersonVO.class);
 	}
 	
 	public void delete(Long id) {
-		Person person = findById(id);
+		var person = repository.findById(id)
+							   .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found for this ID #%s", id)));
+		
 		repository.delete(person);
 	}
 	

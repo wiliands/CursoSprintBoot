@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springboot.vo.Greeting;
+import br.com.springboot.data.vo.GreetingVO;
 
 @RestController
 public class GreetingController {
@@ -16,8 +16,8 @@ public class GreetingController {
 	private final AtomicLong counter = new AtomicLong();
 
 	@RequestMapping("/greeting")
-	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
+	public GreetingVO greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+		return new GreetingVO(counter.incrementAndGet(), String.format(template, name));
 	}
 
 }
