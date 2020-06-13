@@ -1,59 +1,46 @@
 package br.com.springboot.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.springboot.exceptions.ResourceNotFoundException;
 import br.com.springboot.model.Person;
+import br.com.springboot.repository.PersonRepository;
 
 @Service
 public class PersonService {
-
-	private final AtomicLong counter = new AtomicLong();
 	
-	public Person findById(String id) {
-		Person person = new Person();
-		person.setId(counter.incrementAndGet());
-		person.setFirstName("Wilian");
-		person.setLastName("Domingues");
-		person.setAddress("Rua Teste, 12");
-		person.setGender("M");
-		return person;
+	@Autowired
+	PersonRepository repository;
+
+	public Person findById(Long id) {
+		return repository.findById(id)
+						 .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found for this ID #%s", id)));
 	}
 	
 	public List<Person> findAll() {
-		
-		List<Person> persons = new ArrayList<Person>();
-		for (int i = 0; i < 8; i++) {
-			Person person = mockPerson(i);
-			persons.add(person);
-		}
-		
-		return persons;
+		return repository.findAll();
 	}
 
-	private Person mockPerson(int i) {
-		Person person = new Person();
-		person.setId(counter.incrementAndGet());
-		person.setFirstName("Person Name " + i);
-		person.setLastName("Last Name " + i);
-		person.setAddress("Address " + i);
-		person.setGender("M");
-		return person;
-	}
-	
 	public Person create(Person person) {
-		person.setId(counter.incrementAndGet());
-		return person;
+		return repository.save(person);
 	}
 	
 	public Person update(Person person) {
-		return person;
+		Person entity = findById(person.getId());
+		
+		entity.setFirstName(person.getFirstName());
+		entity.setLastName(person.getLastName());
+		entity.setAddress(person.getAddress());
+		entity.setGender(person.getGender());
+		return repository.save(entity);
 	}
 	
-	public void delete(String id) {
+	public void delete(Long id) {
+		Person person = findById(id);
+		repository.delete(person);
 	}
 	
 }
