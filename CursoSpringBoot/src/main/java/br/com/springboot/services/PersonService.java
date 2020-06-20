@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.springboot.converters.DozerConverter;
+import br.com.springboot.converters.custom.PersonConverter;
 import br.com.springboot.data.model.Person;
 import br.com.springboot.data.vo.PersonVO;
+import br.com.springboot.data.vo.v2.PersonVOV2;
 import br.com.springboot.exceptions.ResourceNotFoundException;
 import br.com.springboot.repository.PersonRepository;
 
@@ -16,6 +18,9 @@ public class PersonService {
 	
 	@Autowired
 	PersonRepository repository;
+	
+	@Autowired
+	PersonConverter personConverter;
 
 	public PersonVO findById(Long id) {
 		var entity = repository.findById(id)
@@ -33,6 +38,13 @@ public class PersonService {
 		entity = repository.save(entity);
 		
 		return DozerConverter.parseObject(entity, PersonVO.class);
+	}
+
+	public PersonVOV2 createV2(PersonVOV2 person) {
+		var entity = personConverter.convertVOToEntity(person);
+		entity = repository.save(entity);
+		
+		return personConverter.convertEnityToVO(entity);
 	}
 	
 	public PersonVO update(PersonVO person) {
