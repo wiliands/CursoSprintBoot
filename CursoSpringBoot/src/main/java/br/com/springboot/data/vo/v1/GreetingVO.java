@@ -1,4 +1,4 @@
-package br.com.springboot.data.vo;
+package br.com.springboot.data.vo.v1;
 
 public class GreetingVO {
 
