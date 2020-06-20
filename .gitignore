@@ -4,9 +4,9 @@
 **/.metadata
 **/.gradle/
 **/.springBeans
-**/tarjet/
+**/tarjet
 *.jar
 *.war
 *.ear
 *.class
-RemoteSystemsTempFiles/
+RemoteSystemsTempFiles
