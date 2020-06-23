@@ -2,9 +2,6 @@ package br.com.springboot.data.vo.v1;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonPropertyOrder({"id","firstName","lastName","gender","address"})
 public class PersonVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

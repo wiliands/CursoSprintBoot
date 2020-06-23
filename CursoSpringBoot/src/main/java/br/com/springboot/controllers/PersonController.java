@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springboot.data.vo.v1.PersonVO;
 import br.com.springboot.services.PersonService;
+import br.com.springboot.util.CustomMediaType;
 
 @RestController
 @RequestMapping("/api/person/v1")
@@ -23,27 +24,29 @@ public class PersonController {
 	@Autowired
 	PersonService personService;
 
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public PersonVO findById(@PathVariable("id") Long id) {
 		return personService.findById(id);
 	}
 
-	@GetMapping
+	@GetMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public List<PersonVO> findAll() {
 		return personService.findAll();
 	}
 	
-	@PostMapping
+	@PostMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE},
+				 consumes = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public PersonVO create(@RequestBody PersonVO person) {
 		return personService.create(person);
 	}
 	
-	@PutMapping
+	@PutMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE},
+				consumes = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public PersonVO update(@RequestBody PersonVO person) {
 		return personService.update(person);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		personService.delete(id);
 		return ResponseEntity.ok().build();
