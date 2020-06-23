@@ -22,7 +22,7 @@ public class DozerConverterTest {
 	@Test
 	public void parseEntityToVo() {
 		PersonVO vo = DozerConverter.parseObject(mockPerson.mockEntity(), PersonVO.class);
-		Assert.assertEquals(Long.valueOf(0l), vo.getId());
+		Assert.assertEquals(Long.valueOf(0l), vo.getKey());
 	}
 	
 	@Test
@@ -34,7 +34,7 @@ public class DozerConverterTest {
 	@Test
 	public void parseEntityToVoList() {
 		List<PersonVO> vos = DozerConverter.parseListObjects(mockPerson.mockEntityList(), PersonVO.class);
-		Assert.assertEquals(Long.valueOf(0l), vos.get(0).getId());
+		Assert.assertEquals(Long.valueOf(0l), vos.get(0).getKey());
 	}
 	
 	@Test

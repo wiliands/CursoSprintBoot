@@ -2,11 +2,20 @@ package br.com.springboot.data.vo.v1;
 
 import java.io.Serializable;
 
-public class PersonVO implements Serializable {
+import org.springframework.hateoas.ResourceSupport;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+
+@JsonPropertyOrder(value = {"id", "firstName", "lastName", "address", "gender"})
+public class PersonVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -15,13 +24,13 @@ public class PersonVO implements Serializable {
 	public PersonVO() {
 		super();
 	}
-
-	public Long getId() {
-		return id;
+	
+	public Long getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getFirstName() {
@@ -60,7 +69,7 @@ public class PersonVO implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getKey() == null) ? 0 : getKey().hashCode());
 		return result;
 	}
 
@@ -73,10 +82,10 @@ public class PersonVO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PersonVO other = (PersonVO) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (getKey() == null) {
+			if (other.getKey() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getKey().equals(other.getKey()))
 			return false;
 		return true;
 	}

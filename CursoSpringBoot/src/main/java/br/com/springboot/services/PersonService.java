@@ -36,7 +36,7 @@ public class PersonService {
 	}
 
 	public PersonVO update(PersonVO person) {
-		var vo = findById(person.getId());
+		var vo = findById(person.getKey());
 		
 		var entity = DozerConverter.parseObject(vo, Person.class);
 		entity.setFirstName(person.getFirstName());
