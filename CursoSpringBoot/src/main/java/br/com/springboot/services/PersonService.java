@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.springboot.converters.DozerConverter;
-import br.com.springboot.data.model.Person;
+import br.com.springboot.data.entity.Person;
 import br.com.springboot.data.vo.v1.PersonVO;
 import br.com.springboot.exceptions.ResourceNotFoundException;
 import br.com.springboot.repository.PersonRepository;

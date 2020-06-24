@@ -3,7 +3,7 @@ package br.com.springboot.converters.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.springboot.data.model.Person;
+import br.com.springboot.data.entity.Person;
 import br.com.springboot.data.vo.v1.PersonVO;
 
 public class MockPerson {

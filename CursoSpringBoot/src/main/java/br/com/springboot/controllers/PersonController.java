@@ -1,8 +1,5 @@
 package br.com.springboot.controllers;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +19,7 @@ import br.com.springboot.util.CustomMediaType;
 
 @RestController
 @RequestMapping("/api/person/v1")
-public class PersonController {
+public class PersonController implements ModelController<PersonVO, Long>{
 	
 	@Autowired
 	PersonService personService;
@@ -30,14 +27,14 @@ public class PersonController {
 	@GetMapping(value = "/{id}", produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public PersonVO findById(@PathVariable("id") Long id) {
 		PersonVO personVO = personService.findById(id);
-		personVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+		personVO.add(buildLink(personVO));
 		return personVO;
 	}
 
 	@GetMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public List<PersonVO> findAll() {
 		List<PersonVO> persons = personService.findAll();
-		persons.stream().forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+		persons.stream().forEach(p -> p.add(buildLink(p)));
 		return persons;
 	}
 	
@@ -45,7 +42,7 @@ public class PersonController {
 				 consumes = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public PersonVO create(@RequestBody PersonVO person) {
 		PersonVO personVO = personService.create(person);
-		personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
+		personVO.add(buildLink(personVO));
 		return personVO;
 	}
 	
@@ -53,7 +50,7 @@ public class PersonController {
 				consumes = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
 	public PersonVO update(@RequestBody PersonVO person) {
 		PersonVO personVO = personService.update(person);
-		personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
+		personVO.add(buildLink(personVO));
 		return personVO;
 	}
 

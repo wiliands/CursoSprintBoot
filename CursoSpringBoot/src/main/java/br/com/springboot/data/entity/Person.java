@@ -1,4 +1,4 @@
-package br.com.springboot.data.model;
+package br.com.springboot.data.entity;
 
 import java.io.Serializable;
 
