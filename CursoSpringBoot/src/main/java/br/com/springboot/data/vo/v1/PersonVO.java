@@ -1,15 +1,13 @@
 package br.com.springboot.data.vo.v1;
 
-import java.io.Serializable;
-
-import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.ResourceSupport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
 @JsonPropertyOrder(value = {"id", "firstName", "lastName", "address", "gender"})
-public class PersonVO extends RepresentationModel<PersonVO> implements Serializable, ModelVO<Long> {
+public class PersonVO extends ResourceSupport implements ModelVO<Long> {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,8 @@
 package br.com.springboot.data.vo.v1;
 
-public interface ModelVO<ID> {
+import java.io.Serializable;
+
+public interface ModelVO<ID> extends Serializable {
 	
 	public ID getKey();
 	

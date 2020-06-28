@@ -3,7 +3,6 @@ package br.com.springboot.controllers;
 import java.util.List;
 
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 
 import br.com.springboot.data.vo.v1.ModelVO;
@@ -14,20 +13,12 @@ public interface ModelController<T extends ModelVO<ID>, ID> {
 
 	public List<T> findAll();
 	
-	public T create(T person);
+	public T create(T t);
 	
-	public T update(T person);
+	public T update(T t);
 
 	public ResponseEntity<?> delete(ID id);
 	
-	/**
-	 * Construir link HATEOAS
-	 * @param personVO
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	default Link buildLink(T t) {
-		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(getClass()).findById(t.getKey())).withSelfRel();
-	}
+	public Link buildLink(T t);
 
 }

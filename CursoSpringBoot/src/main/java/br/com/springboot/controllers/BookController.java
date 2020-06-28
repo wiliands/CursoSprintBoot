@@ -1,8 +1,5 @@
 package br.com.springboot.controllers;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,64 +14,66 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springboot.data.vo.v1.PersonVO;
-import br.com.springboot.services.PersonService;
+import br.com.springboot.data.vo.v1.BookVO;
+import br.com.springboot.services.BookService;
 import br.com.springboot.util.CustomMediaType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"Person Endpoint"})
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+@Api(tags = {"Book Endpoint"})
 @RestController
-@RequestMapping("/api/person/v1")
-public class PersonController implements ModelController<PersonVO, Long>{
+@RequestMapping("/api/book/v1")
+public class BookController implements ModelController<BookVO, Integer>{
 	
 	@Autowired
-	PersonService personService;
+	BookService bookService;
 
-	@ApiOperation(value = "Find Person By ID")
+	@ApiOperation(value = "Find Book By ID")
 	@GetMapping(value = "/{id}", produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
-	public PersonVO findById(@PathVariable("id") Long id) {
-		PersonVO personVO = personService.findById(id);
-		personVO.add(buildLink(personVO));
-		return personVO;
+	public BookVO findById(@PathVariable("id") Integer id) {
+		BookVO book = bookService.findById(id);
+		book.add(buildLink(book));
+		return book;
 	}
 
-	@ApiOperation(value = "Find All Persons")
+	@ApiOperation(value = "Find All Books")
 	@GetMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
-	public List<PersonVO> findAll() {
-		List<PersonVO> persons = personService.findAll();
-		persons.stream().forEach(p -> p.add(buildLink(p)));
-		return persons;
+	public List<BookVO> findAll() {
+		List<BookVO> books = bookService.findAll();
+		books.stream().forEach(p -> p.add(buildLink(p)));
+		return books;
 	}
 	
-	@ApiOperation(value = "Create Person")
 	@PostMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE},
 				 consumes = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
-	public PersonVO create(@RequestBody PersonVO person) {
-		PersonVO personVO = personService.create(person);
-		personVO.add(buildLink(personVO));
-		return personVO;
+	public BookVO create(@RequestBody BookVO bookParam) {
+		BookVO book = bookService.create(bookParam);
+		book.add(buildLink(book));
+		return book;
 	}
 	
-	@ApiOperation(value = "Update Person")
+	@ApiOperation(value = "Create Book")
 	@PutMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE},
 				consumes = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
-	public PersonVO update(@RequestBody PersonVO person) {
-		PersonVO personVO = personService.update(person);
-		personVO.add(buildLink(personVO));
-		return personVO;
+	public BookVO update(@RequestBody BookVO bookParam) {
+		BookVO book = bookService.update(bookParam);
+		book.add(buildLink(book));
+		return book;
 	}
 
-	@ApiOperation(value = "Delete Person")
+	@ApiOperation(value = "Delete Book")
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-		personService.delete(id);
+	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+		bookService.delete(id);
 		return ResponseEntity.ok().build();
 	}
 
 	@Override
-	public Link buildLink(PersonVO person) {
-		return linkTo(methodOn(PersonController.class).findById(person.getKey())).withSelfRel();
+	public Link buildLink(BookVO book) {
+		return linkTo(methodOn(BookController.class).findById(book.getKey())).withSelfRel();
 	}
 	
 }

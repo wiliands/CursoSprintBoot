@@ -49,10 +49,10 @@ public class PersonService {
 	}
 	
 	public void delete(Long id) {
-		var person = repository.findById(id)
+		var entity = repository.findById(id)
 							   .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found for this ID #%s", id)));
 		
-		repository.delete(person);
+		repository.delete(entity);
 	}
 	
 }
