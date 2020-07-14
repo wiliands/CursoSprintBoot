@@ -83,7 +83,7 @@ public class Book implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Book))
 			return false;
 		Book other = (Book) obj;
 		if (getId() == null) {

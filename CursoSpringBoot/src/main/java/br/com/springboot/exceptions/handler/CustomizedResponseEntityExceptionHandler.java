@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.springboot.exceptions.ExceptionResponse;
+import br.com.springboot.exceptions.InvalidJWTAuthenticationException;
 import br.com.springboot.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -35,6 +36,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 																	HttpStatus.NOT_FOUND.value(),
 																	HttpStatus.NOT_FOUND.getReasonPhrase());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(InvalidJWTAuthenticationException.class)
+	public final ResponseEntity<ExceptionResponse> invalidJWTAuthenticationException(Exception ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
+																	ex.getMessage(),
+																	request.getDescription(false),
+																	HttpStatus.BAD_REQUEST.value(),
+																	HttpStatus.BAD_REQUEST.getReasonPhrase());
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }
