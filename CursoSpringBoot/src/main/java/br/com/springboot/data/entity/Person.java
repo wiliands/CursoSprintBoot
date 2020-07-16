@@ -31,6 +31,9 @@ public class Person implements Serializable {
 	
 	@Column(name = "gender", nullable = false, length = 1)
 	private String gender;
+	
+	@Column(name = "enabled", nullable = false)
+	private Boolean enabled;
 
 	public Person() {
 		super();
@@ -99,6 +102,14 @@ public class Person implements Serializable {
 		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

@@ -19,8 +19,10 @@ import br.com.springboot.repository.UserRepository;
 import br.com.springboot.security.AccountCredentialsVO;
 import br.com.springboot.security.jwt.JwtTokenProvider;
 import br.com.springboot.util.CustomMediaType;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = {"Auth Endpoint"})
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -62,6 +64,5 @@ public class AuthController {
 			throw new BadCredentialsException("Invalid user name or password supplied");
 		}
 	}
-	
-	
+
 }

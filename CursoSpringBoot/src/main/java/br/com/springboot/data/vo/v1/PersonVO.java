@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
-@JsonPropertyOrder(value = {"id", "firstName", "lastName", "address", "gender"})
+@JsonPropertyOrder(value = {"id", "firstName", "lastName", "address", "gender", "enabled"})
 public class PersonVO extends ResourceSupport implements ModelVO<Long> {
 
 	private static final long serialVersionUID = 1L;
@@ -18,6 +18,7 @@ public class PersonVO extends ResourceSupport implements ModelVO<Long> {
 	private String lastName;
 	private String address;
 	private String gender;
+	private Boolean enabled;
 
 	public PersonVO() {
 		super();
@@ -86,6 +87,14 @@ public class PersonVO extends ResourceSupport implements ModelVO<Long> {
 		} else if (!getKey().equals(other.getKey()))
 			return false;
 		return true;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

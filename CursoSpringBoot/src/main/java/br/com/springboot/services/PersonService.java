@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.springboot.converters.DozerConverter;
 import br.com.springboot.data.entity.Person;
@@ -53,6 +54,11 @@ public class PersonService {
 							   .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found for this ID #%s", id)));
 		
 		repository.delete(entity);
+	}
+	
+	@Transactional
+	public void disable(Long id) {
+		repository.disable(id);
 	}
 	
 }
