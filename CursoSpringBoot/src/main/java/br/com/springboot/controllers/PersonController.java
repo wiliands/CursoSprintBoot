@@ -3,10 +3,14 @@ package br.com.springboot.controllers;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springboot.data.vo.v1.PersonVO;
@@ -31,6 +36,9 @@ public class PersonController implements ModelController<PersonVO, Long>{
 	
 	@Autowired
 	PersonService personService;
+	
+	@Autowired
+	PagedResourcesAssembler<PersonVO> assembler;
 
 	@ApiOperation(value = "Find Person By ID")
 	@GetMapping(value = "/{id}", produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
@@ -42,10 +50,34 @@ public class PersonController implements ModelController<PersonVO, Long>{
 
 	@ApiOperation(value = "Find All Persons")
 	@GetMapping(produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
-	public List<PersonVO> findAll() {
-		List<PersonVO> persons = personService.findAll();
+	public ResponseEntity<?> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
+								  @RequestParam(value = "limit", defaultValue = "15") int limit,
+								  @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		
+		Pageable pageable = PageRequest.of(page, limit, sortDirection(direction, "firstName"));
+		
+		Page<PersonVO> persons = personService.findAll(pageable);
 		persons.stream().forEach(p -> p.add(buildLink(p)));
-		return persons;
+
+		PagedResources<?> resources = assembler.toResource(persons);
+		return new ResponseEntity<>(resources, HttpStatus.OK);
+	}
+	
+
+	@ApiOperation(value = "Find All Persons By Name")
+	@GetMapping(value = "/findByFirstName", produces = {CustomMediaType.APPLICATION_JSON_VALUE, CustomMediaType.APPLICATION_XML_VALUE, CustomMediaType.APPLICATION_YAML_VALUE})
+	public ResponseEntity<?> findByFirstName(@RequestBody PersonVO person,
+								  @RequestParam(value = "page", defaultValue = "0") int page,
+								  @RequestParam(value = "limit", defaultValue = "15") int limit,
+								  @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		
+		Pageable pageable = PageRequest.of(page, limit, sortDirection(direction, "firstName"));
+		
+		Page<PersonVO> persons = personService.findByFirstName(person.getFirstName(), pageable);
+		persons.stream().forEach(p -> p.add(buildLink(p)));
+		
+		PagedResources<?> resources = assembler.toResource(persons);
+		return new ResponseEntity<>(resources, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Create Person")
