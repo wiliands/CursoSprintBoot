@@ -7,7 +7,7 @@ script:
 before_deploy:
   - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
 deploy:
-  provider:script
+  provider: script
   script:
     docker push wiliands/mysql-curso-springboot;
     docker push wiliands/curso-springboot;
